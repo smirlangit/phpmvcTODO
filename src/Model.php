@@ -5,6 +5,8 @@ class Model {
     protected $db;
     protected $dbName = '';
     public $taskPerPage = 3;
+    
+    public const ROLE_ADMIN = 'admin';
 
     public function __construct() {
         $this->db = $this->connect();

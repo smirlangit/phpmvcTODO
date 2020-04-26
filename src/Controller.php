@@ -24,10 +24,19 @@ class Controller {
         
     }
     
-    public function editTask($id,  $desc, $page=1) {
+    public function editTask($id,  $desc, $page=null) {
+        
+        if($this->authCheck($this->model::ROLE_ADMIN) ==  false){
+            header('Location: /');  
+            return false;
+        }
+        
         $res = $this->model->taskEdit($id, $desc);
-       
-        header('Location: /?page='.$page);
+        
+        if($page != null){
+            $page = "?page=$page";
+        }
+        header('Location: /'.$page);
         
     }
     
@@ -76,6 +85,11 @@ class Controller {
     }
     
     public function taskComplete($id, $page=false) {
+        if($this->authCheck($this->model::ROLE_ADMIN) ==  false){
+            header('Location: /');  
+            return false;
+        }
+        
         $this->model->taskComplete($id);
 
     }
@@ -105,14 +119,19 @@ class Controller {
         //удаляем текущий куки из браузера
         setcookie($this->hashCookieName, '');
         
-        //header('Location: /');        
+        header('Location: /');        
         
     }
     
     
     //проверка прав доступа
     protected function authCheck($role) {
-        
+        //получаем роль пользователя по хэшу
+        $hash = $_COOKIE[$this->hashCookieName];
+        $user = $this->model->getUserByHash($hash);
+        if($user['role'] != $role){
+            return false;
+        }
     }
     
 }

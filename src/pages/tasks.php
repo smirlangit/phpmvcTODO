@@ -37,7 +37,7 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
     </form>
  <?php endif; ?>     
     
-    
+ <hr>   
     
     
     <?php if($isadmin): ?>
@@ -45,7 +45,7 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
     <?php endif; ?>
     
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
             
                    
         <div>
@@ -71,29 +71,43 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
                 <a href="?action=sort&sortby=email">по email</a> | 
                 <a href="?action=sort&sortby=status">по статусу</a> 
                 <hr>
-                    
-                    <ul id="sortable" class="list-unstyled"   >
-                         <?php foreach($tasks as $task): ?>
-                            <li class="ui-state-default"  <?php if( $task["status"]=='done' ): ?> style='text-decoration: line-through' <?php endif; ?>  >
-                                        
-                                <?= base64_decode ($task["user_name"]) ?> (<?= base64_decode($task["email"]) ?>):
-
-                                <?php if($isadmin): ?>
-                                    
-                                        <input id="<?= $task["id"]?>" type='text' name="desc" value='<?= base64_decode($task["description"]) ?>'>
-                                        <button type="submit" class="btn btn-primary"   onclick="edit('<?= $task["id"]?>')">ok</button>  
-                                        <a href ='?action=taskcomplete&task=<?= $task["id"]?><?= $currpage ?>' ><input type="checkbox" <?= $task["status"]=='done'? 'checked':'' ?>></a>
-
-                                <?php else: ?>
-                                    <?= base64_decode ($task["description"]) ?>
-                                <?php endif; ?>
-                            </li>
-
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                          <th>Имя</th>
+                          <th>Email</th>
+                          <th class="col-md-12">Описание задачи</th>
+                          <?php if($isadmin): ?>
+                            <th>сохранить</th>
+                            <th>завершить</th>                            
+                          <?php endif; ?>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php foreach($tasks as $task): ?>
+                          <tr <?php if( $task["status"]=='done' ): ?> style='text-decoration: line-through' <?php endif; ?>>
+                            <td><?= base64_decode ($task["user_name"]) ?></td>
+                            <td><?= base64_decode($task["email"]) ?></td>
+                            
+                            
+                            <?php if($isadmin): ?>
+                                <td> <input id="<?= $task["id"]?>" type='text' name="desc" value='<?= base64_decode($task["description"]) ?>' class='form-control'></td>
+                                <td> <button type="submit" class="btn btn-default"   onclick="edit('<?= $task["id"]?>')">сохранить</button>  </td>
+                                <td><a href ='?action=taskcomplete&task=<?= $task["id"]?><?= $currpage ?>' ><input type="checkbox" <?= $task["status"]=='done'? 'checked':'' ?>></a></td>
+                             <?php else: ?>
+                                <td><?= base64_decode($task["description"]) ?></td>
+                             <?php endif; ?>
+                          </tr>
                          <?php endforeach; ?>
-                    </ul>
-                
+                        
+                          
+                      </tbody>
+                </table>
+                    
         </div>
-            
+        
+        
+            <hr>
              <ul class="pagination">
                  <?php for($i=0; $i<$pages; $i++): ?>
                  <li class="page-item"><a class="page-link" href="?page= <?= $i ?>"><?= $i +1 ?></a></li>
