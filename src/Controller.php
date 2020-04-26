@@ -80,19 +80,38 @@ class Controller {
 
     }
     
-    public function login($user, $password) {
-        
+    public function login($user, $password) {        
         //поиск пользователя по логину и паролю
-        $user = $this->model->getUser($user, $password);
-        
+        $user = $this->model->getUser($user, $password);       
         
         //если найден, генерируем для него новый хэш
         if($user){
             $hash = $this->model->hashGenerate($user["id"]);
             setcookie($this->hashCookieName, $hash);
         }
-        header('Location: /');
+        header('Location: /');        
         
+    }
+    
+    //разлогирование
+    public function logout() {    
+        //получаем пользователя по хэшу
+        $hash = $_COOKIE[$this->hashCookieName];
+        $user = $this->model->getUserByHash($hash);
+        
+        //генерируем новый хеш, для обнуления текущего
+        $this->model->hashGenerate($user['id']);
+        
+        //удаляем текущий куки из браузера
+        setcookie($this->hashCookieName, '');
+        
+        //header('Location: /');        
+        
+    }
+    
+    
+    //проверка прав доступа
+    protected function authCheck($role) {
         
     }
     

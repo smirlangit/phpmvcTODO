@@ -85,7 +85,7 @@ class Model {
         return $data;
     }
     
-    //права пользователя по хешу
+    //права пользователя по хешу. Если хеш от клиента равен хешу в базе, то значит залогинен
     public function getAuthByHash($hash) {
         $data = $this->db->query("SELECT * FROM $this->dbName.users WHERE hash='$hash' limit 1");
         $data = $data->fetchAll();
@@ -97,6 +97,13 @@ class Model {
         }
         return $auth;
         
+    }
+    
+    public function getUserByHash($hash) {
+        $data = $this->db->query("SELECT * FROM $this->dbName.users WHERE hash='$hash' limit 1");
+        $user = $data->fetch();
+        
+        return $user;
     }
 
 

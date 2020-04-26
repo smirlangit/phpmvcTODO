@@ -14,20 +14,30 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
 <div class="container">
     <p class="mt-5"></p>
     
-   
-<form class="form-inline " action='get'>
-  <div class="form-group mx-sm-3 mb-2">    
-      <input name='login' type="login" class="form-control"  placeholder="логин" required="">
-  </div>
+<?php if($isadmin): ?>   
+    <form class="form-inline " action='get'>
+
+       <input type="hidden" name="action" value="logout">
+       <button type="submit" class="btn btn-primary mb-2">выход</button>
+
+    </form>
+    
+<?php else: ?>
+    <form class="form-inline " action='get'>
+      <div class="form-group mx-sm-3 mb-2">    
+          <input name='login' type="login" class="form-control"  placeholder="логин" required="">
+      </div>    
+
+      <div class="form-group mx-sm-3 mb-2">    
+          <input name='password' type="password" class="form-control" placeholder="пароль" value='' required>
+      </div>
+
+       <input type="hidden" name="action" value="login">
+       <button type="submit" class="btn btn-primary mb-2">вход</button>
+    </form>
+ <?php endif; ?>     
     
     
-  <div class="form-group mx-sm-3 mb-2">    
-      <input name='password' type="password" class="form-control" placeholder="пароль" value='' required>
-  </div>
-    
-   <input type="hidden" name="action" value="login">
-  <button type="submit" class="btn btn-primary mb-2">вход</button>
-</form>
     
     
     <?php if($isadmin): ?>

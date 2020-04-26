@@ -31,6 +31,10 @@ if($_GET["action"]== 'login'){
     $controller->login($_GET['login'], $_GET['password']);    
 }
 
+if($_GET["action"]== 'logout'){
+    $controller->logout();    
+}
+
 if($_GET["action"]== 'taskcomplete'){    
     $controller->taskComplete($_GET['task'], $_GET["page"]);    
 }
