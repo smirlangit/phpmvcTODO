@@ -47,7 +47,9 @@ class Controller {
             return false;
         }
         
-        $res = $this->model->taskEdit($id, $desc);
+        $user = $this->getCurrentUser();
+           
+        $res = $this->model->taskEdit($id, $desc, $user['login']);
         
         if($page != null){
             $page = "?page=$page";
@@ -155,6 +157,13 @@ class Controller {
         }
         
         return $checked;
+    }
+    
+    //текущий пользователь
+    protected function getCurrentUser(){
+        $hash = $_COOKIE[$this->hashCookieName];
+        $user = $this->model->getUserByHash($hash);
+        return $user;
     }
     
 }

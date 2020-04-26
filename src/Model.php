@@ -68,9 +68,15 @@ class Model {
     }
     
      //редактировани задачи
-    public function taskEdit($id, $desc) {
+    public function taskEdit($id, $desc, $userLogin = '') {
+        
+        $editedBy = '';
+        if($userLogin != ''){
+            $editedBy = "editby = '$userLogin' ";
+        }
+        
         $desc = base64_encode($desc);
-        $res = $this->db->query("UPDATE $this->dbName.tasks SET description = '$desc' WHERE id=$id ");
+        $res = $this->db->query("UPDATE $this->dbName.tasks SET description = '$desc', $editedBy  WHERE id=$id ");
     }
     
     

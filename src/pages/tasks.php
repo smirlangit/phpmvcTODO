@@ -80,10 +80,15 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
                           <th>Имя</th>
                           <th>Email</th>
                           <th class="col-md-12">Описание задачи</th>
-                          <?php if($isadmin): ?>
-                            <th>сохранить</th>
-                            <th>завершить</th>                            
-                          <?php endif; ?>
+                          
+                          
+                            <?php if($isadmin): ?>
+
+                              <th>сохранить</th>
+                              <th>завершить</th>                            
+                            <?php endif; ?>
+                              
+                            <th>отредактировано администратором</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -94,12 +99,16 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
                             
                             
                             <?php if($isadmin): ?>
+                                
                                 <td> <input id="edit_field_<?= $task["id"]?>" type='text' name="desc" value='<?= base64_decode($task["description"]) ?>' class='form-control'></td>
                                 <td> <button type="submit" class="btn btn-default"   onclick="edit('<?= $task["id"]?>')">сохранить</button>  </td>
                                 <td><a href ='?action=taskcomplete&task=<?= $task["id"]?><?= $currpage ?>' ><input type="checkbox" <?= $task["status"]=='done'? 'checked':'' ?>></a></td>
                              <?php else: ?>
-                                <td><?= base64_decode($task["description"]) ?></td>
+                                <td><?= base64_decode($task["description"]) ?></td>                                
                              <?php endif; ?>
+                                
+                            <td><?= $task["editby"]!=null ?'да':'' ?></td>
+                            
                           </tr>
                          <?php endforeach; ?>
                         
