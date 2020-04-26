@@ -19,9 +19,25 @@ class Controller {
     }
     
     public function addTask($name, $mail, $desc) {
+        if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+            $this->showMsg("invalid email format");
+            header('Location: /');
+            return false;
+          }
+          
+        $name = strip_tags($name);
+        $mail = strip_tags($mail);
+        $desc = strip_tags($desc);
+          
         $res = $this->model->addTask($name, $mail, $desc);
+        $this->setTasksSort("id");
+        $this->showMsg("task added!");
         header('Location: /');
         
+    }
+    
+    protected function showMsg($msg) {
+        setcookie("msg", $msg, time()+1);
     }
     
     public function editTask($id,  $desc, $page=null) {
@@ -102,6 +118,8 @@ class Controller {
         if($user){
             $hash = $this->model->hashGenerate($user["id"]);
             setcookie($this->hashCookieName, $hash);
+        } else {
+            $this->showMsg('incorrect username or password');
         }
         header('Location: /');        
         
@@ -126,12 +144,17 @@ class Controller {
     
     //проверка прав доступа
     protected function authCheck($role) {
+        $checked = false;
         //получаем роль пользователя по хэшу
         $hash = $_COOKIE[$this->hashCookieName];
         $user = $this->model->getUserByHash($hash);
-        if($user['role'] != $role){
-            return false;
+        if($user['role'] == $role){
+            $checked = true;
+        } else {
+            $checked = false;
         }
+        
+        return $checked;
     }
     
 }

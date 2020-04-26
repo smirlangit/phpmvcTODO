@@ -35,7 +35,9 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
        <input type="hidden" name="action" value="login">
        <button type="submit" class="btn btn-primary mb-2">вход</button>
     </form>
- <?php endif; ?>     
+ <?php endif; ?>    
+    
+
     
  <hr>   
     
@@ -52,10 +54,10 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
              <h1>Список задач</h1>
                 <form method='get'>
                     
-                    <div class="form-group">                    
+                    <div class="form-group" >                    
                         <div class="form-inline ">                        
                             <input name='name' type="text" class="form-control" placeholder="имя" required >                          
-                            <input name='email' type="text" class="form-control" placeholder="email" required>  
+                            <input name='email' type="email" class="form-control" placeholder="email" required>  
                         </div>
                     </div>
                    
@@ -63,13 +65,14 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
                         <input name='description' type="text" class="form-control" placeholder="описание задачи" required>
                     </div>
                     <input type='hidden' name='action' value='addtask'>
-                    <button type="submit" class="btn btn-primary">добавить</button>  
+                    <button type="submit" class="btn btn-primary" >добавить</button>  
                 </form>
                 <hr>
-                <p>сортровка</p>
+                <p>сортировка</p>
                 <a href="?action=sort&sortby=user_name">по имени</a> | 
                 <a href="?action=sort&sortby=email">по email</a> | 
-                <a href="?action=sort&sortby=status">по статусу</a> 
+                <a href="?action=sort&sortby=status">по статусу</a>  |
+                <a href="?action=sort&sortby=id">(обычная)</a> 
                 <hr>
                 <table class="table table-striped">
                     <thead>
@@ -91,7 +94,7 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
                             
                             
                             <?php if($isadmin): ?>
-                                <td> <input id="<?= $task["id"]?>" type='text' name="desc" value='<?= base64_decode($task["description"]) ?>' class='form-control'></td>
+                                <td> <input id="edit_field_<?= $task["id"]?>" type='text' name="desc" value='<?= base64_decode($task["description"]) ?>' class='form-control'></td>
                                 <td> <button type="submit" class="btn btn-default"   onclick="edit('<?= $task["id"]?>')">сохранить</button>  </td>
                                 <td><a href ='?action=taskcomplete&task=<?= $task["id"]?><?= $currpage ?>' ><input type="checkbox" <?= $task["status"]=='done'? 'checked':'' ?>></a></td>
                              <?php else: ?>
@@ -119,6 +122,7 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
     </div>
 </div>
 
+<!-- редактирование описания -->
 <form action="get" id="edittaskform">
     <input type="hidden" id="edittask_id" name="id" value="">
     <input type="hidden" id="edittask_desc" name="desc" value="">
@@ -128,12 +132,31 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
 
 <script>
  function edit(id){
-     var desc = $('#'+id).val();
+     var desc = $('#edit_field_'+id).val();
      $('#edittask_id').val(id);
      $('#edittask_desc').val(desc);
      $('#currpage').val(<?= $currpage ?>);
      $('#edittaskform').submit();
  }
+ 
+ function checkTaskForm(){
+     console.log("before");
+     return false;
+ }
+ 
+ function getCookie(name) {
+  var value = "; " + document.cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
+ $(document).ready(function(){   
+     var msg = getCookie('msg');
+     if(msg != undefined){
+         alert(unescape(msg));
+     }
+     
+ });
 
 </script>
 
