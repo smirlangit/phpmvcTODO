@@ -22,7 +22,7 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
     
     
   <div class="form-group mx-sm-3 mb-2">    
-      <input name='password' type="password" class="form-control" placeholder="пароль" value='*' required>
+      <input name='password' type="password" class="form-control" placeholder="пароль" value='' required>
   </div>
     
    <input type="hidden" name="action" value="login">
@@ -31,7 +31,7 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
     
     
     <?php if($isadmin): ?>
-    вы админ
+    администратор
     <?php endif; ?>
     
 <div class="row">
@@ -57,9 +57,9 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
                 </form>
                 <hr>
                 <p>сортровка</p>
-                <a href="?action=sort&sortby=name">по имени</a> | 
+                <a href="?action=sort&sortby=user_name">по имени</a> | 
                 <a href="?action=sort&sortby=email">по email</a> | 
-                <a href="?action=sort&sortby=sеtatus">по статусу</a> 
+                <a href="?action=sort&sortby=status">по статусу</a> 
                 <hr>
                     
                     <ul id="sortable" class="list-unstyled"   >

@@ -31,8 +31,9 @@ class Model {
         //способ сортировки
         $orderBy = 'ORDER BY id';
         if($sortingBy != null){
-            
+            $orderBy = 'ORDER BY '.$sortingBy;
         }
+        
         
         $direction = 'DESC';
         if($sortDirection != null){
@@ -54,6 +55,14 @@ class Model {
         
         return $data;
         
+    }
+    
+    //общее количество задач в базе, нужно для пагинации
+    public function tasksCount(){
+        $data = $this->db->query("SELECT count(id) as count FROM $this->dbName.tasks");
+        $data = $data->fetch();
+
+        return $data['count'];
     }
     
      //редактировани задачи

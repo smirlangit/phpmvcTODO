@@ -6,6 +6,8 @@ class Controller {
     protected $model;
     protected $view;
     protected $hashCookieName = 'hash';
+    protected $sortCookieName = 'sortingby';
+    protected $sortDirCookieName = 'sortdirect';
     
     public function __construct() {
         
@@ -29,8 +31,19 @@ class Controller {
         
     }
     
+    //тип сортировки в куки
     public function setTasksSort($sortingBy) {
-        setcookie("sortingby", $sortingBy);
+        setcookie($this->sortCookieName, $sortingBy);
+        
+        //направление сортировки (toggle). Если тип сортировки такой же, значит меняем направление сортировки
+        $sortDir = '';
+        if($sortingBy == $_COOKIE[$this->sortCookieName]){
+          $sortDir = $_COOKIE[$this->sortDirCookieName] == 'asc' ? 'desc':'asc';             
+            
+        } 
+        setcookie($this->sortDirCookieName, $sortDir);
+                
+        header('Location: /');
         
     }
 
@@ -38,8 +51,8 @@ class Controller {
     //страницы с пагинацией
     public function viewTasksPage($page=0){
         
-        $sortingBy = $_COOKIE['sortingby'];
-        $sortDirection = 'ASC';
+        $sortingBy = $_COOKIE[$this->sortCookieName];
+        $sortDirection = $_COOKIE[$this->sortDirCookieName]=='asc' ? 'ASC' : 'DESC';
         
         //получаем данные из модели
         $tasks = $this->model->getTasks($page, $sortingBy, $sortDirection);
@@ -51,9 +64,10 @@ class Controller {
             
         }
         
-        $pageCount = ceil((count($tasks) +1) /  $this->model->taskPerPage);
-
+        //количество страниц
+        $pageCount = ceil(( $this->model->tasksCount()) /  $this->model->taskPerPage);
         
+
         //отдаем данные на показ через view. Так как нужно максимально упростить код, для каждого рендера делается свой метод, вместо универсального
         $this->view->showPage("tasks", ["tasks"=>$tasks, "isadmin"=>$isAdmin, "pages"=>$pageCount]);
         
