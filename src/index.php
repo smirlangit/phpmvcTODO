@@ -28,8 +28,8 @@ if($_POST["action"]== 'addtask'){
     $controller->addTask($_POST['name'], $_POST['email'], $_POST['description']);    
 }
 
-if($_GET["action"]== 'login'){
-    $controller->login($_GET['login'], $_GET['password']);    
+if($_POST["action"]== 'login'){
+    $controller->login($_POST['login'], $_POST['password']);    
 }
 
 if($_GET["action"]== 'logout'){
@@ -40,8 +40,8 @@ if($_GET["action"]== 'taskcomplete'){
     $controller->taskComplete($_GET['task'], $_GET["page"]);    
 }
 
-if($_GET["action"]== 'taskedit'){
-    $controller->editTask($_GET['id'], $_GET['desc'],  $_GET["page"]);    
+if($_POST["action"]== 'taskedit'){
+    $controller->editTask($_POST['id'], $_POST['desc'],  $_GET["page"]);    
 }
 
 if($_GET["action"]== 'sort'){

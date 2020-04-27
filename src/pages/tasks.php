@@ -15,7 +15,7 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
     <p class="mt-5"></p>
     
 <?php if($isadmin): ?>   
-    <form class="form-inline " action='get'>
+    <form class="form-inline " method='get'>
 
        <input type="hidden" name="action" value="logout">
        <button type="submit" class="btn btn-primary mb-2">выход</button>
@@ -23,7 +23,7 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
     </form>
     
 <?php else: ?>
-    <form class="form-inline " action='get'>
+    <form class="form-inline " method='post' enctype="multipart/form-data">
       <div class="form-group mx-sm-3 mb-2">    
           <input name='login' type="login" class="form-control"  placeholder="логин" required="">
       </div>    
