@@ -52,7 +52,7 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
                    
         <div>
              <h1>Список задач</h1>
-                <form method='get'>
+             <form method='post' enctype="application/x-www-form-urlencoded">
                     
                     <div class="form-group" >                    
                         <div class="form-inline ">                        
@@ -162,6 +162,7 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
  $(document).ready(function(){   
      var msg = getCookie('msg');
      if(msg != undefined){
+         msg.replace("+", " ");
          alert(unescape(msg));
      }
      

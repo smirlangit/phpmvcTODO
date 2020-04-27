@@ -22,9 +22,10 @@ define('ROOT', __DIR__);
 
 $controller = new Controller();
 
+
 //очень упрощенный роутинг запросов
-if($_GET["action"]== 'addtask'){
-    $controller->addTask($_GET['name'], $_GET['email'], $_GET['description']);    
+if($_POST["action"]== 'addtask'){
+    $controller->addTask($_POST['name'], $_POST['email'], $_POST['description']);    
 }
 
 if($_GET["action"]== 'login'){

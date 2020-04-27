@@ -19,11 +19,13 @@ class Controller {
     }
     
     public function addTask($name, $mail, $desc) {
+        
         if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
             $this->showMsg("invalid email format");
             header('Location: /');
             return false;
           }
+          
           
         $name = strip_tags($name);
         $mail = strip_tags($mail);
