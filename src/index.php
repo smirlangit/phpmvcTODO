@@ -36,8 +36,8 @@ if($_GET["action"]== 'logout'){
     $controller->logout();    
 }
 
-if($_GET["action"]== 'taskcomplete'){    
-    $controller->taskComplete($_GET['task'], $_GET["page"]);    
+if($_POST["action"]== 'taskcomplete'){    
+    $controller->taskComplete($_POST['id'], $_GET["page"]);    
 }
 
 if($_POST["action"]== 'taskedit'){

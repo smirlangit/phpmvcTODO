@@ -102,11 +102,11 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
                                 
                                 <td> <input id="edit_field_<?= $task["id"]?>" type='text' name="desc" value='<?= base64_decode($task["description"]) ?>' class='form-control'></td>
                                 <td> <button type="submit" class="btn btn-default"   onclick="edit('<?= $task["id"]?>')">сохранить</button>  </td>
-                                <td><a href ='?action=taskcomplete&task=<?= $task["id"]?><?= $currpage ?>' ><input type="checkbox" <?= $task["status"]=='done'? 'checked':'' ?>></a></td>
+                                <td><a href ='#'onclick="taskComplete('<?= $task["id"]?>')" ><input type="checkbox" <?= $task["status"]=='done'? 'checked':'' ?>></a></td>
                              <?php else: ?>
                                 <td><?= base64_decode($task["description"]) ?></td>                                
                              <?php endif; ?>
-                                
+                              
                             <td><?= $task["editby"]!=null ?'да':'' ?></td>
                             
                           </tr>
@@ -132,12 +132,19 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
 </div>
 
 <!-- редактирование описания -->
-<form action="get" id="edittaskform">
+<form method="post" id="edittaskform">
     <input type="hidden" id="edittask_id" name="id" value="">
     <input type="hidden" id="edittask_desc" name="desc" value="">
     <input type="hidden" id="currpage" name="page" value="">
     <input type="hidden" name="action" value="taskedit">
 </form>
+
+<!-- завершение задачи -->
+<form method="post" id="completetaskform">
+    <input type="hidden" id="complete_id" name="id" value="">
+    <input type="hidden" name="action" value="taskcomplete">
+</form>
+
 
 <script>
  function edit(id){
@@ -146,6 +153,11 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
      $('#edittask_desc').val(desc);
      $('#currpage').val(<?= $currpage ?>);
      $('#edittaskform').submit();
+ }
+ 
+ function taskComplete(id){
+     $('#complete_id').val(id);
+     $('#completetaskform').submit();
  }
  
  function checkTaskForm(){
