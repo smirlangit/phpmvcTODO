@@ -97,9 +97,11 @@ class Controller {
         //количество страниц
         $pageCount = ceil(( $this->model->tasksCount()) /  $this->model->taskPerPage);
         
+        //если стоит текущая страница указанная в запросе
+        $currpage = isset($_GET['page']) ? $_GET['page'] : '';
 
-        //отдаем данные на показ через view. Так как нужно максимально упростить код, для каждого рендера делается свой метод, вместо универсального
-        $this->view->showPage("tasks", ["tasks"=>$tasks, "isadmin"=>$isAdmin, "pages"=>$pageCount]);
+        //отдаем данные на показ через view
+        $this->view->showPage('tasks', ['tasks'=>$tasks, 'isadmin'=>$isAdmin, 'pages'=>$pageCount, 'currpage'=>$currpage]);
         
         $this->model->closeConnect();
         

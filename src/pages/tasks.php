@@ -1,15 +1,7 @@
-<?php
-//$tasks - список задач 
-//$isadmin - пользователь является админом
-
-
-$currpage = isset($_GET['page']) ? $_GET['page'] : '';
-
-?>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
+<script src='/public/app.js'></script>
 
 <div class="container">
     <p class="mt-5"></p>
@@ -135,7 +127,6 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
 <form method="post" id="edittaskform">
     <input type="hidden" id="edittask_id" name="id" value="">
     <input type="hidden" id="edittask_desc" name="desc" value="">
-    <input type="hidden" id="currpage" name="page" value="">
     <input type="hidden" name="action" value="taskedit">
 </form>
 
@@ -145,41 +136,3 @@ $currpage = isset($_GET['page']) ? $_GET['page'] : '';
     <input type="hidden" name="action" value="taskcomplete">
 </form>
 
-
-<script>
- function edit(id){
-     var desc = $('#edit_field_'+id).val();
-     $('#edittask_id').val(id);
-     $('#edittask_desc').val(desc);
-     $('#currpage').val(<?= $currpage ?>);
-     $('#edittaskform').submit();
- }
- 
- function taskComplete(id){
-     $('#complete_id').val(id);
-     $('#completetaskform').submit();
- }
- 
- function checkTaskForm(){
-     console.log("before");
-     return false;
- }
- 
- function getCookie(name) {
-  var value = "; " + document.cookie;
-  var parts = value.split("; " + name + "=");
-  if (parts.length == 2) return parts.pop().split(";").shift();
-}
-
- $(document).ready(function(){   
-     var msg = getCookie('msg');
-     if(msg != undefined){
-         msg.replace("+", " ");
-         alert(unescape(msg));
-     }
-     
- });
-
-</script>
-
-    

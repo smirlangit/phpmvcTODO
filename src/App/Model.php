@@ -24,10 +24,10 @@ class Model {
         $desc = base64_encode($desc);
 
 
-        $res= $this->db->query("INSERT INTO $this->dbName.tasks (user_name, email, description) VALUES ('$name', '$mail', '$desc')");
+        $insertResult= $this->db->query("INSERT INTO $this->dbName.tasks (user_name, email, description) VALUES ('$name', '$mail', '$desc')");
 
 
-        return $res;
+        return $insertResult;
 
     }
 
@@ -56,10 +56,10 @@ class Model {
 
         $data = $this->db->query("SELECT * FROM $this->dbName.tasks $orderBy $direction limit $startpage, $this->taskPerPage ");
 
-        $data = $data->fetchAll();
+        $allTasks = $data->fetchAll();
 
 
-        return $data;
+        return $allTasks;
 
     }
 
@@ -80,21 +80,22 @@ class Model {
         }
 
         $desc = base64_encode($desc);
-        $res = $this->db->query("UPDATE $this->dbName.tasks SET description = '$desc', $editedBy  WHERE id=$id ");
+        $this->db->query("UPDATE $this->dbName.tasks SET description = '$desc', $editedBy  WHERE id=$id ");
+        
     }
 
 
     //завершение задачи
     public function taskComplete($id) {
-         $res = $this->db->query("UPDATE $this->dbName.tasks SET status = 'done' WHERE id=$id ");
+         $this->db->query("UPDATE $this->dbName.tasks SET status = 'done' WHERE id=$id ");
     }
 
     //получаем польз из базы
     public function getUser($login, $pass){
         $data = $this->db->query("SELECT * FROM $this->dbName.users WHERE login='$login' AND pass='$pass' limit 1");
-        $data = $data->fetchAll();
+        $user = $data->fetchAll();
 
-        return $data;
+        return $user;
     }
 
     //права пользователя по хешу. Если хеш от клиента равен хешу в базе, то значит залогинен
