@@ -1,11 +1,8 @@
 <?php
-require_once './Controller.php';
-require_once './Model.php';
-require_once './View.php';
+namespace App;
+include __DIR__.DIRECTORY_SEPARATOR.'Bootstrap.php';
 
-
-
-define('ROOT', __DIR__);
+use App\Controller;
 
 
 //контроллер получит http запрос, извлечен данные и передаст дальше модели
