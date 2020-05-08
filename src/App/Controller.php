@@ -28,7 +28,7 @@ class Controller {
         $mail = strip_tags($mail);
         $desc = strip_tags($desc);
           
-        $res = $this->model->addTask($name, $mail, $desc);
+        $this->model->addTask($name, $mail, $desc);
         $this->setTasksSort("id");
         $this->showMsg("task added!");
         header('Location: /');
@@ -111,11 +111,12 @@ class Controller {
         
     }
     
-    public function taskComplete($id, $page=false) {
-        if($this->authCheck($this->model::ROLE_ADMIN) ==  false){
+    public function taskComplete($id) {
+        if($this->authCheck($this->model::ROLE_ADMIN) ==  false && is_int($id) == false && $id < 0){
             header('Location: /');  
             return false;
         }
+        
         
         $this->model->taskComplete($id);
 
