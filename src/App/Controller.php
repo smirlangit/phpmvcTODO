@@ -11,10 +11,7 @@ class Controller {
     protected $sortDirCookieName = 'sortdirect';
     
     public function __construct() {
-        
-        //классы создаются отдельно от места их использования, для того чтобы использующие их методы, не зависили от метода создания объектов
         $this->model = new Model();
-        //нужно сделать объект view как singleton, так как он нужен в едином экземпляре, но для упрощения кода, объект создается как обычно
         $this->view = new View();
         
     }
@@ -26,7 +23,6 @@ class Controller {
             header('Location: /');
             return false;
           }
-          
           
         $name = strip_tags($name);
         $mail = strip_tags($mail);
@@ -60,8 +56,7 @@ class Controller {
         header('Location: /'.$page);
         
     }
-    
-    //тип сортировки в куки
+
     public function setTasksSort($sortingBy) {
         setcookie($this->sortCookieName, $sortingBy);
         
@@ -78,11 +73,20 @@ class Controller {
     }
 
 
-    //страницы с пагинацией
     public function viewTasksPage($page=0){
         
         $sortingBy = $_COOKIE[$this->sortCookieName];
         $sortDirection = $_COOKIE[$this->sortDirCookieName]=='asc' ? 'ASC' : 'DESC';
+        
+        //валидация сортировки
+        $validSortFileds = ["user_name", "email", "status", "id"];
+        if(in_array($sortingBy, $validSortFileds) == false){
+            $sortingBy = "id";
+        }
+        
+        if(is_int($page) == false && $page < 0){
+            $page = 0;
+        }
         
         //получаем данные из модели
         $tasks = $this->model->getTasks($page, $sortingBy, $sortDirection);
@@ -132,7 +136,6 @@ class Controller {
         
     }
     
-    //разлогирование
     public function logout() {    
         //получаем пользователя по хэшу
         $hash = $_COOKIE[$this->hashCookieName];
@@ -148,8 +151,7 @@ class Controller {
         
     }
     
-    
-    //проверка прав доступа
+
     protected function authCheck($role) {
         $checked = false;
         //получаем роль пользователя по хэшу
@@ -164,7 +166,6 @@ class Controller {
         return $checked;
     }
     
-    //текущий пользователь
     protected function getCurrentUser(){
         $hash = $_COOKIE[$this->hashCookieName];
         $user = $this->model->getUserByHash($hash);
